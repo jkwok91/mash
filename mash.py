@@ -1,7 +1,7 @@
 
 def inputChoices():
   mash = {'live':['m','a','s','h']}
-  category = raw_input('Enter a category (press 0 when finished): ')
+  category = raw_input('Enter a category (press Enter when finished): ')
   while category != '':
     mash[category] = []
     choice = raw_input('Enter a corresponding choice (press Enter when finished): ')
@@ -75,6 +75,6 @@ def moduluz(x,y):
   
 mash = inputChoices()
 #play(mash,5)
-play(mash,7)
+play(mash,4)
 #play(mash,1)
 #play(mash,100)
