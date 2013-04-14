@@ -9,7 +9,7 @@ function newCat() {
   var mForm = $('div#details');
   var thisCategory = $('<div></div>');
   thisCategory.appendTo(mForm);
-  $('<input class="category" type="text" onChange="catChange(this)"/>').appendTo(thisCategory);
+  $('<input class="category" type="text" onkeyup="catChange(this)"/>').appendTo(thisCategory);
   $('<button type="button" id="remove-cat" onClick="removeCat(this)">Remove Category</button>').appendTo(thisCategory);
   $('<button type="button" id="add-choice" onClick="addChoice(this)">Add Choice</button>').appendTo(thisCategory).hide();
 }
