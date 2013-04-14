@@ -1,9 +1,7 @@
-var mash = {'live':['m','a','s','h']};
-
 $(window).load(function() {
 //bind the event handlers to buttons
   $('button#category').attr('onClick','newCat()');
-  $('button#future').attr('onClick','playGame()');
+  $('button#future').attr('onClick','showResults()');
 });
 
 function newCat() {
@@ -30,10 +28,6 @@ function catChange(e){
 function removeCat(e) {
   console.log('removed');
   var categoryName = $(e).parent().children('input.category').val();
-  if (mash.hasOwnProperty(categoryName)){
-    console.log('removed',categoryName);
-    delete mash[categoryName];
-  }
   $(e).parent().remove();
 }
 
@@ -51,11 +45,10 @@ function removeChoice(e) {
 }
 
 function playGame() {
-  console.log('hello');
-  makeMash();
-  console.log(mash);
-  play(mash);
-  console.log('done');
+  var mash = makeMash();
+  if (mash) {
+     return play(mash);
+  }
 }
 
 function makeMash(){
@@ -64,6 +57,8 @@ function makeMash(){
 //for each div in div#details, get the child that is an input#category. get that value.  that is the catName/mash key
 //then get $('div.choice input') <--each of those is a choice. stick that in the array that is the value for the mashkey 
 //builds the mash
+  var flag = true;
+  var mash = {'live':['m','a','s','h']}
   $('div#details > div').each(function() {
     var categoryName = $(this).find('input.category').val();
     if (!mash.hasOwnProperty(categoryName)) {
@@ -71,9 +66,28 @@ function makeMash(){
     }
     //console.log(categoryName);
     var currentCat = mash[categoryName];
-    $(this).find('div.choice input').each(function() {
-       //console.log('choice',$(this).val());
-       currentCat.push($(this).val());
-    });
+    var choices = $(this).find('div.choice input');
+    //console.log(choices.length);
+    if (choices.length <= 1) {
+       alert('You must put at least 2 choices per category');
+       flag = false;
+    }
+    else {
+        choices.each(function() {
+           //console.log('choice',$(this).val());
+           currentCat.push($(this).val());
+        });
+    }
   });
+  var result = flag ? mash : flag;
+  return result;
+}
+
+function showResults() {
+  var resultzBox = $('div#results');
+  resultzBox.html('');
+  var yourLife = playGame();
+  for (var cat in yourLife) {
+    resultzBox.append('<p>'+cat+' : '+yourLife[cat]+'</p>');
+  }
 }
